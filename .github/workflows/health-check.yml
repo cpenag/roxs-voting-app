@@ -2,7 +2,7 @@ name: Health Check
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Cada 30 minutos
+    - cron: '*/60 * * * *'  # Cada 30 minutos
 
 jobs:
   health:
