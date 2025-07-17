@@ -10,4 +10,4 @@ jobs:
 
     steps:
     - name: Run health check script
-      run: curl -f http://tu-ip-o-dominio:5000 || exit 1
+      run: curl -f http://localhost:5000 || exit 1
