@@ -120,8 +120,9 @@ async function getIP(hostname) {
 }
 
 async function updateVote(client, voterID, vote) {
-  const queryInsert =
-    "INSERT INTO votes (id, vote) VALUES ($1, $2) ON CONFLICT (id) DO UPDATE SET vote = $2, created_at = CURRENT_TIMESTAMP";
+  const queryInsert = "INSERT INTO votes (voter_id, vote) VALUES ($1, $2)";
+
+
 
   try {
     const result = await client.query(queryInsert, [voterID, vote]);

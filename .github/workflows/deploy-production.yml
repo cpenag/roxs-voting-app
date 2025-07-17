@@ -1,0 +1,19 @@
+name: Deploy to Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, production]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Backup Database
+      run: ./scripts/backup.sh
+
+    - name: Deploy to Production
+      run: |
+        cd ${{ github.workspace }}
+        docker compose -f docker-compose.prod.yml up -d --build

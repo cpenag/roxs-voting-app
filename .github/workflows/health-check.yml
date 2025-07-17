@@ -1,0 +1,13 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Cada 30 minutos
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Run health check script
+      run: curl -f http://tu-ip-o-dominio:5000 || exit 1

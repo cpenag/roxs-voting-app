@@ -1,0 +1,62 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports: ['5432:5432']
+        env:
+          POSTGRES_DB: votes
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Python dependencies
+      run: |
+        cd vote
+        pip install -r requirements.txt
+
+    - name: Run Python app test (vote)
+      run: |
+        echo "Aquí podrías correr tests de Flask si existieran"
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Node.js dependencies
+      run: |
+        cd result && npm install
+        cd ../worker && npm install
+
+    - name: Run Node.js tests
+      run: |
+        echo "Aquí podrías correr tests con Jest/Mocha si existieran"
+
+    - name: Build Docker images
+      run: |
+        docker build -t vote ./vote
+        docker build -t result ./result
+        docker build -t worker ./worker
