@@ -6,8 +6,12 @@ on:
 
 jobs:
   health:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, staging]  # ✔️ Usa la VM Vagrant como runner
 
     steps:
-    - name: Run health check script
+    - name: Esperar que vote se inicie
+      run: sleep 10
+      
+    - name: Run health check
       run: curl -f http://localhost:5000 || exit 1
+
